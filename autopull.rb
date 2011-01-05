@@ -18,24 +18,9 @@ before do
 	load "config.rb"
 end
 
-def run_hooks(hooks)
-	to_run = if hooks.is_a? String
-		[hooks]
-	else
-		hooks
-	end
-	to_run.each do |command|
-		res = system command
-		if !res
-			raise "Error occurred while running '#{command}': #{$?.inspect}"
-		end
-	end
-end
-
 get "/:keyword" do
 	k = params[:keyword]
 	config = AutoPull.config[k]
-	puts " - Nil? #{config.nil?}"
 	if config
 		AutoPull.process config
 		"ok"
@@ -47,7 +32,6 @@ end
 get "/" do
 	if AutoPull::DIRECTORY_INDEX
 		"Sorry, not implemented yet"
-		AutoPull.config.to_s
 	else
 		"Directory index is disabled"
 	end

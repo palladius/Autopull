@@ -39,5 +39,20 @@ class AutoPull
 				end
 			end
 		end
+		
+		private
+		def run_hooks(hooks)
+			to_run = if hooks.is_a? String
+				[hooks]
+			else
+				hooks
+			end
+			to_run.each do |command|
+				res = system command
+				if !res
+					raise "Error occurred while running '#{command}': #{$?.inspect}"
+				end
+			end
+		end
 	end
 end
