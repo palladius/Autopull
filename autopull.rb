@@ -16,7 +16,7 @@ before do
 	load "config.rb"
 end
 
-get "/:keyword" do
+def go
 	k = params[:keyword]
 	config = AutoPull.config[k]
 	if config
@@ -25,6 +25,13 @@ get "/:keyword" do
 	else
 		pass
 	end
+end
+
+get "/:keyword" do
+	go
+end
+post "/:keyword" do
+	go
 end
 
 get "/" do
