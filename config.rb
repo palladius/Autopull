@@ -5,4 +5,4 @@ AutoPull.register_command :git, "git pull"
 
 # configure aliases
 #  example: 
-AutoPull.add_hook :alias => "update", :git => "~/src/HydrateJS", :after_run => "./compile.sh"
+# AutoPull.add_hook :alias => "update", :git => "~/src/HydrateJS", :after_run => "./compile.sh"
