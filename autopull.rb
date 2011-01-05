@@ -2,8 +2,6 @@ require "sinatra"
 require "fileutils"
 include FileUtils
 require "logger"
-
-$: << "." unless $:.include? "."
 require "lib/autopull"
 
 AutoPull::DIRECTORY_INDEX = true
