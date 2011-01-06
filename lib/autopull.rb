@@ -3,7 +3,6 @@ class AutoPull
 	class << self
 		def reset
 			@opts = {}
-			@commands = {}
 		end
 		
 		def add_hook(opts={})
@@ -14,44 +13,30 @@ class AutoPull
 			@opts
 		end
 		
-		def register_command(name, command)
-			@commands[name.to_sym] = command
-		end
-		
 		def process(config)
-			to_run = @commands.keys & config.keys
-			if to_run.empty?
-				raise "No commands found to run; check config.rb"
-			elsif to_run.length > 1
-				raise "More than one possible command found -- this isn't supported right now."
-			else
-				to_run.each do |key|
-					path = File.expand_path config[key]
-					cd path do
-						if config[:before_run]
-							run_hooks config[:before_run]
-						end
-						`#{@commands[key]}`
-						if config[:after_run]
-							run_hooks config[:after_run]
-						end
-					end
-				end
+		  raise "No path given; specify a :path key" unless config[:path]
+		  raise "No command(s) given; specify a :run key" unless config[:run]
+		  
+			path = File.expand_path config[:path]
+			cd path do
+			  run_commands config[:run]
 			end
 		end
 		
 		private
-		def run_hooks(hooks)
-			to_run = if hooks.is_a? String
-				[hooks]
+		def run_commands(commands)
+			to_run = if commands.is_a? String
+				[commands]
 			else
-				hooks
+				commands
 			end
-			to_run.each do |command|
-				res = system command
-				if !res
-					raise "Error occurred while running '#{command}': #{$?.inspect}"
-				end
+		  to_run.each do |command|
+	      $stderr.puts "Running #{command}"
+		    %x[#{command}]
+		    if $? != 0
+		      raise "Error occurred while running '#{command}' (exited with #{$?})"
+		    end
+		    $stderr.puts "...success"
 			end
 		end
 	end

@@ -1,0 +1,10 @@
+# Make a copy of this file without the .example extension -- you can change it all you like.
+# Configuration may change in the future, but this .example file should stay consistent to its original behavior.
+
+# configure commands that you'll be reusing
+git_pull = "git pull"
+
+# configure aliases
+#  example: 
+# AutoPull.add_hook :alias => "update_hydrate", :path => "~/src/HydrateJS", :run => [git_pull, "./compile.sh"]
+AutoPull.add_hook :alias => "greet", :path => ".", :run => ["echo 'Hi!'"]

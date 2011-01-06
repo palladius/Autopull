@@ -1,0 +1,18 @@
+<!doctype html>
+<html>
+	<head>
+		<title>AutoPull Index</title>
+	</head>
+	<body>
+		<h1>URL Mappings and Behavior</h1>
+		<% AutoPull.config.each_pair do |k, v| %>
+		  <%
+		    commands = (["cd #{v[:path]}"] + (v[:run] || [])).join(", then</li>\n<li>")
+		  %>
+		  <h2>/<%= k %></h2>
+		  <ol>
+		    <li><%= commands %></li>
+		  </ol>
+		<% end %>
+	</body>
+</html>

@@ -4,6 +4,7 @@ include FileUtils
 require "logger"
 require "lib/autopull"
 
+# uncomment to enable directory indexes, showing all jobs available
 AutoPull::DIRECTORY_INDEX = true
 
 log_dir = File.expand_path(File.join(__FILE__, "..", "logs"))
@@ -13,7 +14,11 @@ LOGGER = Logger.new(File.join(log_dir, "autopull.log"), "weekly")
 
 before do
 	AutoPull.reset
-	load "config.rb"
+	begin
+	  load "config.rb"
+	rescue LoadError => e
+	  raise "Couldn't load config.rb -- perhaps you should start by making a copy of config.rb and tweaking it?"
+	end
 end
 
 def go
@@ -27,16 +32,12 @@ def go
 	end
 end
 
-get "/:keyword" do
-	go
-end
-post "/:keyword" do
-	go
-end
+get("/:keyword") { go }
+post("/:keyword") { go }
 
 get "/" do
 	if AutoPull::DIRECTORY_INDEX
-		"Sorry, not implemented yet"
+		erb :index
 	else
 		"Directory index is disabled"
 	end
