@@ -30,14 +30,15 @@ class AutoPull
 			else
 				commands
 			end
-		  to_run.each do |command|
-	      $stderr.puts "Running #{command}"
-		    %x[#{command}]
-		    if $? != 0
-		      raise "Error occurred while running '#{command}' (exited with #{$?})"
-		    end
-		    $stderr.puts "...success"
+			to_run.each do |command|
+				$stderr.puts "Running #{command}"
+				%x[#{command}]
+				if $? != 0
+					raise "Error occurred while running '#{command}' (exited with #{$?})"
+				end
+				$stderr.puts "...success"
 			end
 		end
 	end
 end
+require File.join(File.expand_path(File.dirname(__FILE__)), 'version')

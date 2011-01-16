@@ -4,8 +4,8 @@ include FileUtils
 require "logger"
 require "lib/autopull"
 
-# uncomment to enable directory indexes, showing all jobs available
-AutoPull::DIRECTORY_INDEX = true
+# uncomment to enable directory indexes, showing all jobs available when you hit /
+# AutoPull::DIRECTORY_INDEX = true
 
 log_dir = File.expand_path(File.join(__FILE__, "..", "logs"))
 mkdir_p log_dir
@@ -39,6 +39,6 @@ get "/" do
 	if AutoPull::DIRECTORY_INDEX
 		erb :index
 	else
-		"Directory index is disabled"
+		"Directory index is disabled."
 	end
 end
